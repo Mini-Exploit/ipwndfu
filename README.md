@@ -18,7 +18,10 @@
 * future SoC support: s5l8940x, s5l8942x, s5l8945x, s5l8747x, t7000, t7001, s7002, s8000, s8001, s8003, t8012
 
 * full jailbreak with Cydia on latest iOS version is possible, but requires additional work
-
+## About this fork
+* This fork updates option ```send file to device in DFU Mode``` in ipwndfu, prevents the error ```usb.core.USBError: [Errno 5] Input/Output Error``` from happening.
+* Also, dfu.py and recovery.py are updated to print the process of sending a file to device.
+ 
 
 ## Quick start guide for checkm8
 
