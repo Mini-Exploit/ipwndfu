@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # ipwndfu: open-source jailbreaking tool for older iOS devices
 # Author: axi0mX
+# Modified version by MiniExploit
 
 import binascii, datetime, getopt, hashlib, struct, sys, time
 import dfu, nor, utilities
@@ -111,6 +112,7 @@ if __name__ == '__main__':
             device.flash_nor(new_nor.dump())
 
         if opt == '-f':
+            print '*** Modified version by MiniExploit ***'
             try:
                 with open(arg, 'rb') as f:
                     data = f.read()
@@ -119,10 +121,19 @@ if __name__ == '__main__':
                 sys.exit(1)
 
             device = dfu.acquire_device()
-            dfu.reset_counters(device)
             dfu.send_data(device, data)
-            dfu.request_image_validation(device)
             dfu.release_device(device)
+            try:
+                start = time.time()
+                dfu.request_image_validation(device)
+                dfu.release_device(device)
+                time_taken = time.time() - start
+                if time_taken <= 1:
+                    print 'ERROR: The image was sent, but unable to boot it. Exiting.'
+                    sys.exit()
+            except usb.core.USBError:
+                print "ERROR: Unable to request image validation."
+            print 'done!'
 
         if opt == '--demote':
             device = dfu.acquire_device()
