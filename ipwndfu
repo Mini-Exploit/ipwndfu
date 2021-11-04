@@ -127,10 +127,6 @@ if __name__ == '__main__':
                 start = time.time()
                 dfu.request_image_validation(device)
                 dfu.release_device(device)
-                time_taken = time.time() - start
-                if time_taken <= 1:
-                    print 'ERROR: The image was sent, but unable to boot it. Exiting.'
-                    sys.exit()
             except usb.core.USBError:
                 print "ERROR: Unable to request image validation."
             print 'done!'
