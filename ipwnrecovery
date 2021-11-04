@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # ipwnrecovery: open-source jailbreaking tool for older iOS devices
 # Author: axi0mX
+# Modified version by MiniExploit
 
 import getopt, sys
-import usb # pyusb: use 'pip install pyusb' to install this module
+import 
 import recovery
 
 def print_help():
@@ -35,10 +36,11 @@ if __name__ == '__main__':
             try:
                 recovery.send_command(device, arg)
             except usb.core.USBError:
-                print 'WARNING: Caught USBError after running command.'
+                pass
             recovery.release_device(device)
 
         if opt == '-f':
+            print '*** Modified version by MiniExploit ***'
             try:
                 with open(arg, 'rb') as f:
                     data = f.read()
@@ -49,17 +51,16 @@ if __name__ == '__main__':
             device = recovery.acquire_device()
             recovery.send_data(device, data)
             recovery.release_device(device)
+            print 'done!'
 
         if opt == '--exit-recovery-loop':
             device = recovery.acquire_device()
 
-            # TODO: getenv auto-boot first and fail if it is already true.
             recovery.send_command(device, 'setenv auto-boot true')
             recovery.send_command(device, 'saveenv')
             try:
                 recovery.send_command(device, 'reboot')
             except usb.core.USBError:
-                # OK: this is expected when rebooting
                 pass
 
             recovery.release_device(device)
@@ -67,13 +68,11 @@ if __name__ == '__main__':
         if opt == '--enable-uart':
             device = recovery.acquire_device()
 
-            # TODO: getenv debug-uarts first and fail if it is already 3.
             recovery.send_command(device, 'setenv debug-uarts 3')
             recovery.send_command(device, 'saveenv')
             try:
                 recovery.send_command(device, 'reboot')
             except usb.core.USBError:
-                # OK: this is expected when rebooting
                 pass
 
             recovery.release_device(device)
